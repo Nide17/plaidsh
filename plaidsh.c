@@ -30,10 +30,9 @@
 static int
 builtin_exit(int argc, char *argv[])
 {
-  // TODO!
-  if((argc == 1 && strcmp(argv[0], "exit") == 0) || (strcmp(argv[0], "quit") == 0)){
+  // ONE ARG AND IS exit OR quit
+  if ((argc == 1 && strcmp(argv[0], "exit") == 0) || (strcmp(argv[0], "quit") == 0))
     exit(0);
-  }
 
   return 0;
 }
@@ -51,11 +50,14 @@ builtin_exit(int argc, char *argv[])
  */
 static int builtin_author(int argc, char *argv[])
 {
-  // TODO!
-  if(argc == 1 && strcmp(argv[0], "author") == 0){
-    printf("Niyomwungeri Parmenide\n");
+  // THERE IS ONE ARG AND IS author
+  if (argc == 1 && strcmp(argv[0], "author") == 0)
+  {
+    printf("Niyomwungeri Parmenide Parmenide\n");
     return 0;
   }
+
+  // FAILURE
   return 1;
 }
 
@@ -72,14 +74,17 @@ static int builtin_author(int argc, char *argv[])
 static int builtin_cd(int argc, char *argv[])
 {
   // TODO!
-  if(argc == 2 && strcmp(argv[0], "cd") == 0){
-    if(chdir(argv[1]) == 0){
+  // THERE IS A DIRECTORY AND THE FIRST ARG IS cd
+  if (argc == 2 && strcmp(argv[0], "cd") == 0)
+  {
+    // CHANGE DIRECTORY TO ARG 1
+    if (chdir(argv[1]) == 0)
       return 0;
-    }
   }
+  
+  // cd COMMAND FAILED
   return 1;
 }
-
 
 /*
  * Handles the pwd builtin, by printing the cwd to the supplied file
@@ -94,13 +99,18 @@ static int builtin_cd(int argc, char *argv[])
  */
 static int builtin_pwd(int argc, char *argv[])
 {
-  // TODO!
-  if(argc == 1 && strcmp(argv[0], "pwd") == 0){
-    char cwd[1024];
-    getcwd(cwd, sizeof(cwd));
-    printf("%s \n", cwd);
+  // THERE IS ONE ARG AND IS THE pwd
+  if (argc == 1 && strcmp(argv[0], "pwd") == 0)
+  {
+    char currentDir[1024];
+    getcwd(currentDir, sizeof(currentDir));
+    
+    // PRINT THE CURRENT WORKING DIRECTORY
+    printf("%s \n", currentDir);
     return 0;
   }
+
+  // IF ERROR, RETURN 1
   return 1;
 }
 
@@ -118,22 +128,27 @@ static int builtin_pwd(int argc, char *argv[])
 static int forkexec_external_cmd(int argc, char *argv[])
 {
   // TODO!
+  // FORKING THE PROCESS
   pid_t pid = fork();
+
+  // IF PARENT PROCESS - EXECUTE IT
   if (pid == 0)
   {
     execvp(argv[0], argv);
     exit(0);
   }
+
+  // IF CHILD PROCESS, WAIT FOR IT TO FINISH
   else if (pid > 0)
   {
     int status;
     waitpid(pid, &status, 0);
     return WEXITSTATUS(status);
   }
+
+  // IF ERROR, COMMAND FAILED - RETURN -1
   else
-  {
     return -1;
-  }
 }
 
 /*
@@ -146,29 +161,24 @@ static int forkexec_external_cmd(int argc, char *argv[])
 void execute_command(int argc, char *argv[])
 {
   assert(argc >= 1);
-
-  // TODO!
+  // EXECUTING THE exit, quit COMMAND
   if (strcmp(argv[0], "exit") == 0 || strcmp(argv[0], "quit") == 0)
-  {
     builtin_exit(argc, argv);
-  }
+
+  // EXECUTING THE author COMMAND
   else if (strcmp(argv[0], "author") == 0)
-  {
     builtin_author(argc, argv);
-  }
+
+  // EXECUTING cd COMMAND
   else if (strcmp(argv[0], "cd") == 0)
-  {
     builtin_cd(argc, argv);
-  }
+
+  // EXECUTING THE pwd COMMAND
   else if (strcmp(argv[0], "pwd") == 0)
-  {
     builtin_pwd(argc, argv);
-  }
-  else
-  {
-    forkexec_external_cmd(argc, argv);
-  }
   
+  else
+    forkexec_external_cmd(argc, argv);
 }
 
 /*
@@ -185,37 +195,28 @@ void mainloop()
 
   while (1)
   {
+    // ACCESS THE INPUT FROM THE PROMPT
     input = readline(prompt);
+
+    // IF NO INPUT, KEEP PROMPTING
     if (input == NULL)
       exit(0);
 
     if (*input == '\0')
       continue;
 
+
+    // GETTING AND PARSING THE INPUT
     argc = parse_input(input, argv, MAX_ARGS);
-    
+
+    // ARGUMENTS ERROR
     if (argc == -1)
-    { // handle parsing error
       printf(" Error: %s\n", argv[0]);
-      free(argv[0]);
-    }
+
+    // THE ARGUMENTS ARE OK - RUN THE COMMAND
     else
-    { // parse_input succeeded
       for (int i = 0; i < argc; i++)
-      {
-        printf(" ARG %d: %s\n", i, argv[i]);
-
-        // TODO!
         execute_command(argc, argv);
-      }
-    }
-    // free all the malloc'd memory
-    free(input);
-
-    for (int i = 0; i < argc; i++)
-    {
-      free(argv[i]);
-    }
   }
 }
 
