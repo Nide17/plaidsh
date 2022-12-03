@@ -3,7 +3,7 @@
  *
  * Code to parse and tokenize a command line
  *
- * Author: Niyomwungeri Parmenide ISHIMWE
+ * Author: Niyomwungeri Parmenide ISHIMWE <parmenin@andrew.cmu.edu>
  */
 
 #include <stdbool.h>

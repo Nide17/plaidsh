@@ -4,6 +4,7 @@
  * A small shell
  *
  * Author: Howdy Pierce <howdy@cardinalpeak.com>
+ * Co-Author: Niyomwungeri Parmenide ISHIMWE <parmenin@andrew.cmu.edu>
  */
 
 #include <stdio.h>
