@@ -168,6 +168,7 @@ void execute_command(int argc, char *argv[])
   {
     forkexec_external_cmd(argc, argv);
   }
+  
 }
 
 /*
@@ -204,14 +205,13 @@ void mainloop()
       {
         printf(" ARG %d: %s\n", i, argv[i]);
 
-        // instead of printing out the arguments, you pass argc and argv to a new function, perhaps named execute_command.From within execute_command, you would compare argv[0] to a number of constant strings, and call the appropriate builtin_XXXX function based on the result.
         // TODO!
         execute_command(argc, argv);
-        free(argv[i]);
       }
     }
     // free all the malloc'd memory
     free(input);
+
     for (int i = 0; i < argc; i++)
     {
       free(argv[i]);
