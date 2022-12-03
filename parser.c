@@ -55,9 +55,7 @@ int read_word(const char *input, char *word, size_t word_len)
 
     // IF WE ARE NOT BETWEEN QUOTES AND WE ENCOUNTER A SPACE, THEN WE ARE DONE
     if (isspace(*inp) && !betweenQuoteS)
-    {
       break;
-    }
 
     // IF WE ENCOUNTER A QUOTE, HANDLE IT BY TOGGLING THE BETWEEN QUOTES FLAG(IN & OUT)
     else if (*inp == '"')
@@ -109,11 +107,10 @@ int read_word(const char *input, char *word, size_t word_len)
       // (ONE FOR THE ESCAPE CHARACTER AND ONE FOR THE CHARACTER AFTER IT)
       inp += 2;
     }
+
+    // COPY THE CHARACTER TO THE WORD
     else
-    {
-      // COPY THE CHARACTER TO THE WORD
       *w++ = *inp++;
-    }
 
     // WHEN THE WORD IS TOO LONG, COPY Word too long AND RETURN -1
     if (w >= word + word_len)

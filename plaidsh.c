@@ -81,7 +81,7 @@ static int builtin_cd(int argc, char *argv[])
     if (chdir(argv[1]) == 0)
       return 0;
   }
-  
+
   // cd COMMAND FAILED
   return 1;
 }
@@ -104,7 +104,7 @@ static int builtin_pwd(int argc, char *argv[])
   {
     char currentDir[1024];
     getcwd(currentDir, sizeof(currentDir));
-    
+
     // PRINT THE CURRENT WORKING DIRECTORY
     printf("%s \n", currentDir);
     return 0;
@@ -144,10 +144,12 @@ static int forkexec_external_cmd(int argc, char *argv[])
     waitpid(pid, &status, 0);
     return WEXITSTATUS(status);
   }
-
   // IF ERROR, COMMAND FAILED - RETURN -1
   else
+  {
+    fprintf(stderr, "Child %d exited with status %d \n", pid, WEXITSTATUS(pid));
     return -1;
+  }
 }
 
 /*
@@ -175,7 +177,8 @@ void execute_command(int argc, char *argv[])
   // EXECUTING THE pwd COMMAND
   else if (strcmp(argv[0], "pwd") == 0)
     builtin_pwd(argc, argv);
-  
+
+  // EXECUTING EXTERNAL COMMANDS (NOT BUILT-IN)
   else
     forkexec_external_cmd(argc, argv);
 }
@@ -192,9 +195,10 @@ void mainloop()
   fprintf(stdout, "Welcome to Plaid Shell!\n");
   const char *prompt = "#> ";
 
+  // CONNECTING THE readline, read_word, AND parse_input IN A LOOP
   while (1)
   {
-    
+
     // GETTING THE INPUT FROM THE USER
     input = readline(prompt);
 
@@ -207,7 +211,6 @@ void mainloop()
 
     if (*input == '\0')
       continue;
-
 
     // GETTING AND PARSING THE INPUT
     argc = parse_input(input, argv, MAX_ARGS);
