@@ -23,7 +23,6 @@ int read_word(const char *input, char *word, size_t word_len)
   assert(input);
   assert(word);
 
-  // TODO: Your code here!!
   const char *inp = input;
   char *w = word;
   bool betweenQuoteS = false;
@@ -34,11 +33,11 @@ int read_word(const char *input, char *word, size_t word_len)
 
   while (*inp)
   {
-    // TODO: Handle unterminated double quote
+
+    // IF WE ARE BETWEEN QUOTES
     if (*inp == '"')
     {
-      
-      // COUNT THE NUMBER OF QUOTES AND CHECK IF IT IS ODD OR EVEN
+      // COUNT THE NUMBER OF QUOTES FROM THE FIRST, AND CHECK IF IT IS ODD OR EVEN
       int quotesNbr = 0;
       for (int i = 0; i < strlen(input); i++)
       {
@@ -54,20 +53,22 @@ int read_word(const char *input, char *word, size_t word_len)
       }
     }
 
+    // IF WE ARE NOT BETWEEN QUOTES AND WE ENCOUNTER A SPACE, THEN WE ARE DONE
     if (isspace(*inp) && !betweenQuoteS)
     {
-      // we've found the end of the token, so return
       break;
     }
+
+    // IF WE ENCOUNTER A QUOTE, HANDLE IT BY TOGGLING THE BETWEEN QUOTES FLAG(IN & OUT)
     else if (*inp == '"')
     {
-      // handle double quote
       betweenQuoteS = !betweenQuoteS;
       inp++;
     }
+
+    // HANDLING SPECIAL CHARACTERS
     else if (*inp == '\\')
     {
-      // handle escape character
       switch (*(inp + 1))
       {
       case 'n':
@@ -97,13 +98,15 @@ int read_word(const char *input, char *word, size_t word_len)
       case '"':
         *w++ = '\"';
         break;
-        // TODO: Handle these cases
 
-      default: // ILLIGAL ESCAPE SEQUENCE
+      // IF THE CHARACTER IS ONE OF ABOVE, THEN IT IS NOT A VALID ESCAPE SEQUENCE
+      default:
         sprintf(word, "Illegal escape character: %c", *(inp + 1));
         return -1;
       }
 
+      // SKIP THE NEXT CHARACTER - TWO CHARACTERS WERE CONSUMED
+      // (ONE FOR THE ESCAPE CHARACTER AND ONE FOR THE CHARACTER AFTER IT)
       inp += 2;
     }
     else
@@ -112,7 +115,7 @@ int read_word(const char *input, char *word, size_t word_len)
       *w++ = *inp++;
     }
 
-    // WHEN THE WORD IS TOO LONG, RETURN -1
+    // WHEN THE WORD IS TOO LONG, COPY Word too long AND RETURN -1
     if (w >= word + word_len)
     {
       strcpy(word, "Word too long");
@@ -134,11 +137,11 @@ int parse_input(const char *input, char *argv[], int argv_max)
 
   assert(input);
 
-  // TODO: Your code here!!
   int MAX_WORD_LEN = 20;
   const char *inp = input;
   char *thisWord;
 
+  // RUN UNTIL WE REACH THE END OF THE INPUT
   while (*inp)
   {
     // SKIP LEADING WHITESPACE
@@ -168,14 +171,15 @@ int parse_input(const char *input, char *argv[], int argv_max)
     }
 
     // IF THE COUNT IS ODD, THEN THERE IS AN UNTERMINATED QUOTE
+    // COPY Unterminated quote TO argv[0] AND RETURN -1
     if (count % 2 != 0)
     {
       strcpy(argv[0], "Unterminated quote");
       return -1;
     }
 
-    // FAILED THIS TEST CASE
-    // IF THE NUMBER OF ARGS EXCEEDS THE MAXIMUM NUMBER OF ARGS, THEN RETURN -1
+    // IF THE NUMBER OF ARGS EXCEEDS THE MAXIMUM NUMBER OF ARGS, 
+    // SET CURRENT ARG VALUE TO NULL AND RETURN -1
     if (argc >= argv_max)
     {
       argv[argc] = NULL;

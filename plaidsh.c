@@ -73,7 +73,6 @@ static int builtin_author(int argc, char *argv[])
  */
 static int builtin_cd(int argc, char *argv[])
 {
-  // TODO!
   // THERE IS A DIRECTORY AND THE FIRST ARG IS cd
   if (argc == 2 && strcmp(argv[0], "cd") == 0)
   {
@@ -127,7 +126,6 @@ static int builtin_pwd(int argc, char *argv[])
  */
 static int forkexec_external_cmd(int argc, char *argv[])
 {
-  // TODO!
   // FORKING THE PROCESS
   pid_t pid = fork();
 
