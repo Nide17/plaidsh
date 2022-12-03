@@ -195,8 +195,12 @@ void mainloop()
 
   while (1)
   {
-    // ACCESS THE INPUT FROM THE PROMPT
+    
+    // GETTING THE INPUT FROM THE USER
     input = readline(prompt);
+
+    // SAVING THE INPUT TO HISTORY
+    add_history(input);
 
     // IF NO INPUT, KEEP PROMPTING
     if (input == NULL)
