@@ -40,32 +40,22 @@ The plaidsh's main() function calls readline() in a loop. Each time readline ret
 
 __IMPORTANCE__
 
-Someone may need to use these functions, when there is a need to manipulate strings o reven analyse them. this can be done via reversing the string characters or even reversing string words in place. These functions can also help in analysis of strings via searching various patterns in strings to make sure that it is the right string or even exploring large strings to know if particular information is included.
-
+Someone may need to use this program if they want to use a shell that can execute commands such as "pwd, author, exit, quit, and cd" and for exploration of the GNU readline library.
 
 __GETTING STARTED__
 
-- Clone this repository to get the stringFunctions.c program.
-- Run the stringFunctions.c program from its containing directory to get the better of it.
-- Note that the following header files needs to be included: 
-#include <stdio.h>   // for inputs and outputs  
-#include <stdbool.h> // for using booleans  
-#include <string.h>  // For using string functions  
-#include <ctype.h>   // declares a set of functions to classify (and transform) individual characters. - tolower  
+- Clone this repository.
+- Run the make command from its containing directory to get the better of it.
+- Run the plaidsh executable to start the shell.
+- Run the make clean command to clean up the directory.
 - Check if it has effects.
 - Happy exploration!!
-
-
-
-__TESTING__
-
-This program should be tested with the functions inside of it that have names starting with test. Those functions are of two types. Each functions has its own function that tests it one and another function that performs multiple test cases to confirm the authenticity. If the tests are run, the results are generated in place.
   
 
 
  __KEYWORDS__
 
-<mark>ILSE</mark>     <mark>CMU</mark>     <mark>Assignment3</mark>     <mark>stringFunctions</mark>     <mark>C Programming</mark>     <mark>Strings</mark> 
+<mark>ILSE</mark>     <mark>CMU</mark>     <mark>Assignment4</mark>     <mark>plaidsh</mark>     <mark>C Programming</mark>     <mark>Strings</mark> 
 
 
 
@@ -77,4 +67,4 @@ This program should be tested with the functions inside of it that have names st
     
  __DATE__
     
- November 21, 2022" 
+ December 5, 2022" 
